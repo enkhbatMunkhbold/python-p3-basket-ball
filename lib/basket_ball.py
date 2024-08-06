@@ -1,3 +1,5 @@
+import json
+
 def game_dict():
     return {
         "home": {
@@ -182,3 +184,61 @@ def game_dict():
             ]
         }
     }
+
+all_players = []
+for key, value in game_dict().items():
+    all_players += game_dict()[key].get('players')
+
+def player_data(name):
+    for player in all_players:
+        if player['name'] == name:
+            return player
+        
+def team_data(team_name):
+    for key, value in game_dict().items():
+        if game_dict()[key]['team_name'] == team_name:
+            return game_dict()[key]
+
+def num_points_per_game(name):
+    return player_data(name)['points_per_game']
+
+def player_age(name):
+    return player_data(name)['age']
+
+def team_colors(team):
+    return team_data(team)['colors']
+
+def team_names():
+    names = []
+    for key, value in game_dict().items():
+        names.append(game_dict()[key]['team_name'])
+    return names
+
+
+def player_numbers(team):
+    return [player['number'] for player in team_data(team)['players']]
+    
+
+def player_stats(name):
+    return player_data(name)
+
+def average_rebounds_by_shoe_brand():
+    shoe_brands = {}
+    for player in all_players:
+        if player['shoe_brand'] not in shoe_brands:
+            shoe_brands.update({player['shoe_brand']: [player["rebounds_per_game"]]})
+        else:
+            shoe_brands[player['shoe_brand']].append(player['rebounds_per_game']) 
+    average_rebounds = {}
+    for key in shoe_brands:
+        sum = 0
+        for rebounds in shoe_brands[key]:
+            sum += rebounds
+        average = "{0:.2f}".format(sum / len(shoe_brands[key]))
+        average_rebounds.update({key: average})
+
+    long_str = ''
+    for key in average_rebounds:
+        long_str += f"{key}: {average_rebounds[key]} "
+
+    print(long_str)
