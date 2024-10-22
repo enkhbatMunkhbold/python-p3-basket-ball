@@ -236,6 +236,5 @@ def average_rebounds_by_shoe_brand():
             sum += rebounds
         average = "{0:.2f}".format(sum / len(shoe_brands[key]))
         average_rebounds.update({key: average})
-
     for key in average_rebounds:
-        print(f"{key}: {average_rebounds[key]} ")
+        print(f"{key}:  {average_rebounds[key]}")
